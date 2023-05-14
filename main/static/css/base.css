@@ -1,0 +1,26 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.nav{
+    overflow: hidden;
+    background: #3a3a3a;
+    height: 65px;
+}
+
+.nav li{
+    float: left;
+    margin: 0 20px;
+    line-height: 65px;
+    list-style: none;
+}
+
+.nav li a{
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.nav li a:hover{
+    color: lightblue;
+}
