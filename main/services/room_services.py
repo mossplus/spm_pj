@@ -104,11 +104,11 @@ class SeatService:
         end_time = datetime.strptime(end_time, '%Y-%m-%d %H:%M')
         re_lst = Reservation.objects.filter(seat_id__room_id_id=room_id, start_rsv_time__lt=end_time,
                                             rsv_state__in=['已预约', '待签到', '已签到', ]).values('seat_id_id')
-        re_lst = list(re_lst.values('seat_id_id'))
+        re_lst = [r['seat_id_id'] for r in re_lst]
         start_time = datetime.strptime(start_time, '%Y-%m-%d %H:%M')
         rs_lst = Reservation.objects.filter(seat_id__room_id_id=room_id, end_rsv_time__gt=start_time,
                                             rsv_state__in=['已预约', '待签到', '已签到', ]).values('seat_id_id')
-        rs_lst = list(rs_lst.values('seat_id_id'))
+        rs_lst = [r['seat_id_id'] for r in rs_lst]
 
         seats = []
         for s in s_list:

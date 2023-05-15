@@ -62,7 +62,7 @@ class ReservationService:
                         'seat_id__room_id__building_id__building_name', 'seat_id__room_id__room_number',
                         'make_rsv_time', 'start_rsv_time', 'end_rsv_time')
         reservations = []
-        now = datetime.now().replace(tzinfo=pytz.timezone('UTC'))
+        now = datetime.now()  # .replace(tzinfo=pytz.timezone('UTC'))
         for r in r_list:
             delta_time = now - r[7] if now > r[7] else r[7] - now
             reservations.append({'rsv_id': r[0], 'rsv_state': r[1], 'seat_id': r[2], 'seat_number': r[3],
@@ -86,10 +86,10 @@ class ReservationService:
         return {}
 
     def verify_reservation_is_deletable(self, rsv_id):
-        make_del_time = datetime.now() + date.timedelta(minutes=15)
-        make_del_time = make_del_time.replace(tzinfo=pytz.timezone('UTC'))
+        # make_del_time = datetime.now() + date.timedelta(minutes=15)
+        # make_del_time = make_del_time.replace(tzinfo=pytz.timezone('UTC'))
         reservation = Reservation.objects.filter.get(rsv_id=rsv_id)
-        return reservation.start_rsv_time >= make_del_time
+        return reservation.rsv_state in ['已预约', '已签到']  # reservation.start_rsv_time >= make_del_time
 
     ## 邮件提醒功能，用于前15分钟邮件提醒
     def send_reminder_as_email(self, reservation):
