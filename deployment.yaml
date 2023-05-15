@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spm-pj-auto-deployment
+  namespace: default
+  labels:
+    app: spm-pj-auto
+spec:
+  selector:
+    matchLabels:
+      app: spm-pj-auto
+  replicas: 1
+  # minReadySeconds: 5
+  progressDeadlineSeconds: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: spm-pj-auto
+    spec:
+      containers:
+      - image: "$BUILD_IMAGE"
+        name: spm-pj-auto
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 100m
+            memory: 1000Mi
+          limits:
+            cpu: "1"
+            memory: 10000Mi
+      imagePullSecrets: # 使用密码登录
+        - name: docker-reg-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spm-pj-auto-service
+  namespace: default
+  labels:
+    app: spm-pj-auto
+spec:
+  selector:
+    app: spm-pj-auto
+  ports:
+    - name: spm-pj-auto-port
+      protocol: TCP
+      port: 8000 #服务访问端口
+      targetPort: 8000 #容器端口
+      nodePort: 31115 #外部访问端口
+  type: NodePort
+

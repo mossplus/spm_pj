@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+hello, {{ student.stu_name }}. buildings are <a href="http://127.0.0.1:8000/stu_index/{{ student.stu_id }}/">here</a>
+    <table>
+        {% for reservation in reservations %}
+        <form action="" method="post">
+        {% csrf_token %}
+        <tbody>
+            <tr style="height: 30px">
+                <td width="60">seat_id_id</td>
+                <td width="200">{{ reservation.1 }}</td>
+                <td width="60">rsv_state</td>
+                <td width="200">{{ reservation.2 }}</td>
+                <td width="60">make_rsv_time</td>
+                <td width="200">{{ reservation.3 }}</td>
+            </tr>
+            <tr style="height: 30px">
+                <td width="60">start_rsv_time</td>
+                <td width="200">{{ reservation.4 }}</td>
+                <td width="60">end_rsv_time</td>
+                <td width="200">{{ reservation.5 }}</td>
+                <td width="60"><input type="hidden" name="rsv_id" value="{{ reservation.0 }}" style="width: 60px; height: 24px;"></td>
+                <td width="200"><input type="submit" name="submit" value="cancel" style="width: 60px; height: 24px;"></td>
+            </tr>
+        </tbody>
+        </form>
+        {% endfor %}
+    </table>
+</body>
+</html>
