@@ -49,7 +49,7 @@ class BuildingService:
         for b in b_list:
             buildings.append({'building_id': b[0], 'building_abbr': b[1], 'building_name': b[2],
                               'building_desc': b[3], 'is_open': b[4], 'config_url': str(b[5]),
-                              'distance': distance(b[6], b[7], longitude, latitude),
+                              'distance': distance(b[7], b[6], latitude, longitude),
                               'capacity': int(c_dict[b[0]]), 'reserved': int(r_dict[b[0]]) if b[0] in r_dict else 0})
         buildings.sort(key=lambda building: building['distance'], reverse=False)
         return buildings
@@ -62,7 +62,7 @@ class BuildingService:
         return {'building_id': building.building_id, 'building_abbr': building.building_abbr,
                 'building_name': building.building_name, 'building_desc': building.building_desc,
                 'is_open': building.is_open, 'config_url': str(building.config_url),
-                'distance': distance(building.longitude, building.latitude, longitude, latitude)}
+                'distance': distance(building.latitude, building.longitude, latitude, longitude)}
 
 
 class RoomService:
