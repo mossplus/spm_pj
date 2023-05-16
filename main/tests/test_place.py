@@ -1,6 +1,6 @@
 from django.test import TestCase
 from ..models import *
-from ..services import BuildingService
+from ..services import BuildingService, RoomService
 import math
 
 # reference:
@@ -15,8 +15,8 @@ def distance(x1, y1, x2, y2):
     x1, y1, x2, y2 = deg_to_rad(float(x1)), deg_to_rad(float(y1)), deg_to_rad(float(x2)), deg_to_rad(float(y2))
     return 6371 * math.acos(math.sin(x1) * math.sin(x2) + math.cos(x1) * math.cos(x2) * math.cos(y1 - y2))
 
-# 测试楼宇距离排序是否正确
-class BuildingTestCase(TestCase):
+
+class PlaceTestCase(TestCase):
     def setUp(self):
         # self.ids = [dct['id'] for dct in Building.objects.values('id')]
         Building.objects.create(building_id=1, building_abbr='aa', building_name='aa', 
@@ -40,6 +40,7 @@ class BuildingTestCase(TestCase):
                                                 is_open=1, capacity=1, overnight=1, building_id_id=2)
         
         self.building_service = BuildingService()
+        self.room_service = RoomService()
         self.stu_longitude = 31.84
         self.stu_latitude = 121.21
 
@@ -61,8 +62,16 @@ class BuildingTestCase(TestCase):
         self.assertEqual(dist[1], dist_sort[1]['distance'])
         self.assertEqual(dist[2], dist_sort[2]['distance'])
 
+    def test_room(self):
+        self.assertEqual(self.room_service.verify_room_with_room_id('1'), True)
+        self.assertEqual(self.room_service.select_room_with_room_id('1')['room_id'], 1)
+        room_set = self.room_service.select_rooms_and_sort('1')
+        self.assertEqual(room_set[0]['room_id'], 1)
+        self.assertEqual(room_set[1]['room_id'], 4)
+
     def tearDown(self):
         buildings = Building.objects.all()
-        romms = Room.objects.all()
+        rooms = Room.objects.all()
         buildings.delete()
-        romms.delete()
+        rooms.delete()
+        
