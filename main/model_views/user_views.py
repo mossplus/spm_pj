@@ -15,7 +15,7 @@ class RegisterView(View):
         try:
             data = json.loads(request.body)
             wx_id = data.get("wx_id")
-            if self.stu_service.verify_student_with_wx_id(wx_id=wx_id):
+            if not self.stu_service.verify_student_with_wx_id(wx_id=wx_id):
                 self.stu_service.create_student_with_wx_id(wx_id=wx_id)
                 self.stu_service.update_student_with_wx_id(wx_id=wx_id, stu_id=data.get("stu_id"), email=data.get("email"),
                                                            stu_name=data.get("stu_name"), password=data.get("password"))
