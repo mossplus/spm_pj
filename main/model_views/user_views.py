@@ -16,12 +16,12 @@ class RegisterView(View):
             data = json.loads(request.body)
             wx_id = data.get("wx_id")
             if self.stu_service.verify_student_with_wx_id(wx_id=wx_id):
+                self.stu_service.create_student_with_wx_id(wx_id=wx_id)
                 self.stu_service.update_student_with_wx_id(wx_id=wx_id, stu_id=data.get("stu_id"), email=data.get("email"),
                                                            stu_name=data.get("stu_name"), password=data.get("password"))
-                return APIResponse(status='200', data={}, error='')
-            else:
-                self.stu_service.create_student_with_wx_id(wx_id=wx_id)
                 return APIResponse(status='201', data={}, error='')
+            else:
+                return APIResponse(status='401', data={}, error='User already exists')
         except Exception as e:
             return APIResponse(status='500', data={}, error=e)
 
