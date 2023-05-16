@@ -88,7 +88,7 @@ class ReservationService:
     def verify_reservation_is_deletable(self, rsv_id):
         # make_del_time = datetime.now() + date.timedelta(minutes=15)
         # make_del_time = make_del_time.replace(tzinfo=pytz.timezone('UTC'))
-        reservation = Reservation.objects.filter.get(rsv_id=rsv_id)
+        reservation = Reservation.objects.get(rsv_id=rsv_id)
         return reservation.rsv_state in ['已预约', '已签到']  # reservation.start_rsv_time >= make_del_time
 
     ## 邮件提醒功能，用于前15分钟邮件提醒
