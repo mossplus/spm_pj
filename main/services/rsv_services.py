@@ -136,7 +136,7 @@ class ReservationService:
         str = self.decrypt_des(deskey, signin_code)
         data = json.loads(str)
         print(data)
-        if distance(data["latitude"], data["longitude"], latitude, longitude) > 0.5:
+        if distance(data["longitude"], data["latitude"], longitude, latitude) > 0.5:
             return {'is_success': False, 'reasons': 'overdistance'}
         reservations = Reservation.objects.filter(stu_id_id=stu_id, seat_id_id=data["seat_id"], rsv_state="待签到")
         if reservations.count() == 0:
