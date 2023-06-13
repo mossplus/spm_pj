@@ -1,4 +1,4 @@
 [run]
 omit =
-    main/views/*
+    main/model_views/*.py
     main/views.py
