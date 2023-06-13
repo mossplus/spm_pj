@@ -34,12 +34,3 @@ services:
       - backend
 networks:
   backend:
-
-
-# 如果是第一次运行，就需要执行迁移命令，并执行data_init.sql
-# 此后如果没有改表结构，就不用执行data_init.sql，也不需要python manage.py makemigrations && python manage.py migrate
-# 此后如果改了表结构，需要将./data文件夹删除（删除前要注意保存已有的用户数据，做好数据迁移），修改data_init.sql，需要执行迁移命令，并执行新的data_init.sql
-# 如果改了Dockerfile或者改了requirements.txt中的依赖，要使用docker-compose build重新构建镜像，并删除旧的镜像
-# container_name: mysql-db
-# apt-get install -y mysql-client
-# mysql -h mysql-db -u root -p moss123 seat < data_init.sql
